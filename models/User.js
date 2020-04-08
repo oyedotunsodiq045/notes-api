@@ -7,7 +7,7 @@ const UserSchema = new Schema({
     required: [true, 'Please add a name'],
     unique: true,
     trim: true,
-    maxlength: [50, 'Name can not be more than 50 characters']
+    maxlength: [50, 'Name cannot be more than 50 characters']
   },
   email: {
     type: String,
@@ -16,10 +16,8 @@ const UserSchema = new Schema({
       'Please use a valid email'
     ]
   },
-  note: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Note',
-    required: true
+  password: {
+    type: String
   }
 });
 

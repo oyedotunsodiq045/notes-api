@@ -1,84 +1,88 @@
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
-const Customer = require('../models/Customer');
+const Note = require('../models/Note');
 
-// @desc    Get all Customers
-// @route   GET /customers
+// @desc    Get all Notes
+// @route   GET /notes
 // @access  Public
-exports.getCustomers = asyncHandler(async (req, res, next) => {
-  const customers = await Customer.find();
+exports.getNotes = asyncHandler(async (req, res, next) => {
+  const notes = await Note.find().populate({
+    path: 'user',
+    select: 'name'
+  });
 
   res.status(200).json({
     success: true,
-    data: customers
+    count: notes.length,
+    data: notes
   });
 });
 
-// @desc    Get single Customer
-// @route   GET /customer/:id
+// @desc    Get single Note
+// @route   GET /note/:id
 // @access  Public
-exports.getCustomer = asyncHandler(async (req, res, next) => {
-  const customer = await Customer.findById(req.params.id);
+exports.getNote = asyncHandler(async (req, res, next) => {
+  const note = await Note.findById(req.params.id);
 
-  if (!customer) {
+  if (!note) {
     return next(
       next(
-        new ErrorResponse(`Customer not found with id of ${req.params.id}`, 404)
+        new ErrorResponse(`Note not found with id of ${req.params.id}`, 404)
       )
     );
   }
 
   res.status(200).json({
     success: true,
-    data: customer
+    data: note
   });
 });
 
-// @desc    Create new Customer
-// @route   POST /customers
+// @desc    Create new Note
+// @route   POST /notes
 // @access  Public
-exports.createCustomer = asyncHandler(async (req, res, next) => {
-    const customer = await Customer.create(req.body);
+exports.createNote = asyncHandler(async (req, res, next) => {
+    const note = await Note.create(req.body);
   
     res.status(201).json({
       success: true,
-      data: customer
+      data: note
     });
   });
   
-  // @desc    Update Customer
-  // @route   PUT /customers/:id
+  // @desc    Update Note
+  // @route   PUT /notes/:id
   // @access  Public
-  exports.updateCustomer = asyncHandler(async (req, res, next) => {
-    const customer = await Customer.findByIdAndUpdate(req.params.id, req.body, {
+  exports.updateNote = asyncHandler(async (req, res, next) => {
+    const note = await Note.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true
     });
   
-    if (!customer) {
+    if (!note) {
       return next(
         next(
-          new ErrorResponse(`Customer not found with id of ${req.params.id}`, 404)
+          new ErrorResponse(`Note not found with id of ${req.params.id}`, 404)
         )
       );
     }
   
     res.status(200).json({
       success: true,
-      data: customer
+      data: note
     });
   });
   
-  // @desc    Delete Customer
-  // @route   DELETE /customers/:id
+  // @desc    Delete Note
+  // @route   DELETE /notes/:id
   // @access  Public
-  exports.deleteCustomer = asyncHandler(async (req, res, next) => {
-    const customer = await Customer.findByIdAndDelete(req.params.id);
+  exports.deleteNote = asyncHandler(async (req, res, next) => {
+    const note = await Note.findByIdAndDelete(req.params.id);
   
-    if (!customer) {
+    if (!note) {
       return next(
         next(
-          new ErrorResponse(`Customer not found with id of ${req.params.id}`, 404)
+          new ErrorResponse(`Note not found with id of ${req.params.id}`, 404)
         )
       );
     }

@@ -1,84 +1,84 @@
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
-const Customer = require('../models/Customer');
+const User = require('../models/User');
 
-// @desc    Get all Customers
-// @route   GET /customers
+// @desc    Get all Users
+// @route   GET /users
 // @access  Public
-exports.getCustomers = asyncHandler(async (req, res, next) => {
-  const customers = await Customer.find();
+exports.getUsers = asyncHandler(async (req, res, next) => {
+  const users = await User.find();
 
   res.status(200).json({
     success: true,
-    data: customers
+    data: users
   });
 });
 
-// @desc    Get single Customer
-// @route   GET /customer/:id
+// @desc    Get single User
+// @route   GET /user/:id
 // @access  Public
-exports.getCustomer = asyncHandler(async (req, res, next) => {
-  const customer = await Customer.findById(req.params.id);
+exports.getUser = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
 
-  if (!customer) {
+  if (!user) {
     return next(
       next(
-        new ErrorResponse(`Customer not found with id of ${req.params.id}`, 404)
+        new ErrorResponse(`User not found with id of ${req.params.id}`, 404)
       )
     );
   }
 
   res.status(200).json({
     success: true,
-    data: customer
+    data: user
   });
 });
 
-// @desc    Create new Customer
-// @route   POST /customers
+// @desc    Create new User
+// @route   POST /users
 // @access  Public
-exports.createCustomer = asyncHandler(async (req, res, next) => {
-    const customer = await Customer.create(req.body);
+exports.createUser = asyncHandler(async (req, res, next) => {
+    const user = await User.create(req.body);
   
     res.status(201).json({
       success: true,
-      data: customer
+      data: user
     });
   });
   
-  // @desc    Update Customer
-  // @route   PUT /customers/:id
+  // @desc    Update User
+  // @route   PUT /users/:id
   // @access  Public
-  exports.updateCustomer = asyncHandler(async (req, res, next) => {
-    const customer = await Customer.findByIdAndUpdate(req.params.id, req.body, {
+  exports.updateUser = asyncHandler(async (req, res, next) => {
+    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true
     });
   
-    if (!customer) {
+    if (!user) {
       return next(
         next(
-          new ErrorResponse(`Customer not found with id of ${req.params.id}`, 404)
+          new ErrorResponse(`User not found with id of ${req.params.id}`, 404)
         )
       );
     }
   
     res.status(200).json({
       success: true,
-      data: customer
+      data: user
     });
   });
   
-  // @desc    Delete Customer
-  // @route   DELETE /customers/:id
+  // @desc    Delete User
+  // @route   DELETE /users/:id
   // @access  Public
-  exports.deleteCustomer = asyncHandler(async (req, res, next) => {
-    const customer = await Customer.findByIdAndDelete(req.params.id);
+  exports.deleteUser = asyncHandler(async (req, res, next) => {
+    const user = await User.findByIdAndDelete(req.params.id);
   
-    if (!customer) {
+    if (!user) {
       return next(
         next(
-          new ErrorResponse(`Customer not found with id of ${req.params.id}`, 404)
+          new ErrorResponse(`User not found with id of ${req.params.id}`, 404)
         )
       );
     }
